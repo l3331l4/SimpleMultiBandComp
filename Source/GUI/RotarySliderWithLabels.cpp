@@ -29,6 +29,10 @@ void RotarySliderWithLabels::paint(juce::Graphics &g)
 //    g.drawRect(getLocalBounds());
 //    g.setColour(Colours::yellow);
 //    g.drawRect(sliderBounds);
+
+    auto& lf = getLookAndFeel();
+    if (auto* customLookAndFeel = dynamic_cast<::LookAndFeel*>(&lf))
+        g.setFont(customLookAndFeel->getIBMPlexMonoFont(14.0f));
     
     g.setColour(ColorScheme::getTitleColor());
     g.drawFittedText(getName(), bounds.removeFromTop(getTextHeight() + 2), Justification::centredBottom, 1);

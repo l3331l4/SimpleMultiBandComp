@@ -50,6 +50,15 @@ namespace ColorScheme
 
 struct LookAndFeel : juce::LookAndFeel_V4
 {
+    LookAndFeel()
+    {
+        // Load the IBM Plex Mono font files
+        loadIBMPlexMonoFonts();
+
+        // Set IBM Plex Mono as the default font for the application
+        setDefaultSansSerifTypeface(ibmPlexMono);
+    }
+
     void drawRotarySlider (juce::Graphics&,
                            int x, int y, int width, int height,
                            float sliderPosProportional,
@@ -61,4 +70,51 @@ struct LookAndFeel : juce::LookAndFeel_V4
                            juce::ToggleButton & toggleButton,
                            bool shouldDrawButtonAsHighlighted,
                            bool shouldDrawButtonAsDown) override;
+
+    void drawTabButton(juce::TabBarButton& button, juce::Graphics& g, 
+                       bool isMouseOver, bool isMouseDown) override;
+
+    juce::Typeface::Ptr getTypefaceForFont(const juce::Font& font) override
+    {
+        return ibmPlexMono;
+    }
+
+    juce::Font getTabButtonFont(juce::TabBarButton& button, float height) override
+    {
+        return getIBMPlexMonoFont(height);
+    }
+
+    juce::Font getIBMPlexMonoFont(float fontSize, int styleFlags = juce::Font::plain) const
+    {
+        juce::Font font(ibmPlexMono);
+        font.setHeight(fontSize);
+        font.setStyleFlags(styleFlags);
+        return font;
+    }
+
+private:
+    juce::Typeface::Ptr ibmPlexMono;
+
+    void loadIBMPlexMonoFonts()
+    {
+        auto fontDir = juce::File::getCurrentWorkingDirectory().getChildFile("Fonts");
+        auto regularFont = fontDir.getChildFile("IBMPlexMono-Regular.ttf");
+
+        juce::MemoryBlock fontData;
+        if (regularFont.loadFileAsData(fontData))
+        {
+            ibmPlexMono = juce::Typeface::createSystemTypefaceFor(fontData.getData(), fontData.getSize());
+        }
+        else
+        {
+            // As a fallback, load from binary data included in the plugin
+            static const char* fontData = BinaryData::IBMPlexMonoRegular_ttf;
+            static const int fontDataSize = BinaryData::IBMPlexMonoRegular_ttfSize;
+
+            if (fontDataSize > 0)
+            {
+                ibmPlexMono = juce::Typeface::createSystemTypefaceFor(fontData, fontDataSize);
+            }
+        }
+    }
 };
