@@ -128,3 +128,30 @@ void LookAndFeel::drawToggleButton(juce::Graphics &g,
         g.drawFittedText(toggleButton.getButtonText(), bounds, Justification::centred, 1);
     }
 }
+
+void LookAndFeel::drawTabButton(juce::TabBarButton& button, juce::Graphics& g, 
+                              bool isMouseOver, bool isMouseDown)
+{
+    auto area = button.getActiveArea();
+    auto backgroundColour = button.getTabBackgroundColour();
+    
+    g.setColour(backgroundColour);
+    g.fillRect(area);
+    
+    auto textArea = button.getTextArea();
+    
+	// Use IBM Plex Mono font for tab text
+    g.setFont(getIBMPlexMonoFont(button.getHeight() * 0.7f));
+
+    // Set text alpha based on whether tab is active
+    auto textColour = button.isFrontTab() ? 
+                     ColorScheme::getTitleColor() : 
+                     ColorScheme::getTitleColor().withAlpha(0.8f);
+                     
+    g.setColour(textColour);
+    
+    g.drawFittedText(button.getButtonText(), 
+                    textArea, 
+                    juce::Justification::centred, 
+                    1);
+}
