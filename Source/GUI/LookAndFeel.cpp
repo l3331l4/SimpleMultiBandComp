@@ -91,7 +91,7 @@ void LookAndFeel::drawToggleButton(juce::Graphics &g,
         // Set color: ON = bypassed = greyish, OFF = not bypassed = dark
         juce::Colour onColour = juce::Colour(193, 194, 189); // bypassed
 
-        juce::Colour offColour = juce::Colour(71, 74, 68);    // not bypassed
+        juce::Colour offColour = ColorScheme::getTitleColor();    // not bypassed
 
 
         auto color = toggleButton.getToggleState() ? onColour : offColour;
