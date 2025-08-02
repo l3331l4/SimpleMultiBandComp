@@ -45,7 +45,8 @@ void drawModuleBackground(juce::Graphics &g,
                           juce::Rectangle<int> bounds)
 {
     using namespace juce;
-    g.setColour(ColorScheme::getModuleBorderColor());
+    //g.setColour(ColorScheme::getModuleBorderColor());
+	g.setColour(ColorScheme::getBackgroundColor());
     g.fillAll();
     
     auto localBounds = bounds;

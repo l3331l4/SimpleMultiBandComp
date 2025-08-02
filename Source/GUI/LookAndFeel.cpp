@@ -35,7 +35,7 @@ void LookAndFeel::drawRotarySlider(juce::Graphics & g,
     g.fillEllipse(bounds);
     
     g.setColour(enabled ? getSliderBorderColor() : Colours::grey);
-    g.drawEllipse(bounds, 2.f);
+    g.drawEllipse(bounds, 3.f);
     
     if( auto* rswl = dynamic_cast<RotarySliderWithLabels*>(&slider))
     {
@@ -43,8 +43,8 @@ void LookAndFeel::drawRotarySlider(juce::Graphics & g,
         Path p;
         
         Rectangle<float> r;
-        r.setLeft(center.getX() - 2);
-        r.setRight(center.getX() + 2);
+        r.setLeft(center.getX() - 1.5);
+        r.setRight(center.getX() + 1.5);
         r.setTop(bounds.getY());
         r.setBottom( juce::jmax(center.getY() - rswl->getTextHeight() * 1.5f,
                                 bounds.getY() + 15));
@@ -82,38 +82,21 @@ void LookAndFeel::drawToggleButton(juce::Graphics &g,
 {
     using namespace juce;
     
-    if( auto* pb = dynamic_cast<PowerButton*>(&toggleButton) )
+    if (auto* pb = dynamic_cast<PowerButton*>(&toggleButton))
     {
-        Path powerButton;
-        
         auto bounds = toggleButton.getLocalBounds();
-        
-        auto size = jmin(bounds.getWidth(), bounds.getHeight()) - 6;
+        auto size = juce::jmin(bounds.getWidth(), bounds.getHeight()) - 12;
         auto r = bounds.withSizeKeepingCentre(size, size).toFloat();
-        
-        float ang = 30.f; //30.f;
-        
-        size -= 6;
-        
-        powerButton.addCentredArc(r.getCentreX(),
-                                  r.getCentreY(),
-                                  size * 0.5f,
-                                  size * 0.5f,
-                                  0.f,
-                                  degreesToRadians(ang),
-                                  degreesToRadians(360.f - ang),
-                                  true);
-        
-        powerButton.startNewSubPath(r.getCentreX(), r.getY());
-        powerButton.lineTo(r.getCentre());
-        
-        PathStrokeType pst(2.f, PathStrokeType::JointStyle::curved);
-        
-        auto color = toggleButton.getToggleState() ? Colours::dimgrey : ColorScheme::getSliderRangeTextColor();
-        
+
+        // Set color: ON = bypassed = greyish, OFF = not bypassed = dark
+        juce::Colour onColour = juce::Colour(193, 194, 189); // bypassed
+
+        juce::Colour offColour = juce::Colour(71, 74, 68);    // not bypassed
+
+
+        auto color = toggleButton.getToggleState() ? onColour : offColour;
         g.setColour(color);
-        g.strokePath(powerButton, pst);
-        g.drawEllipse(r, 2);
+        g.fillEllipse(r);
     }
     else if( auto* analyzerButton = dynamic_cast<AnalyzerButton*>(&toggleButton) )
     {
