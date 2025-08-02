@@ -130,28 +130,42 @@ void LookAndFeel::drawToggleButton(juce::Graphics &g,
 }
 
 void LookAndFeel::drawTabButton(juce::TabBarButton& button, juce::Graphics& g, 
-                              bool isMouseOver, bool isMouseDown)
+                               bool isMouseOver, bool isMouseDown)
 {
     auto area = button.getActiveArea();
+    auto orientation = button.getTabbedButtonBar().getOrientation();
+    auto isActive = button.isFrontTab();
+    
+    // Draw a simple rectangular button filling the entire tab area
     auto backgroundColour = button.getTabBackgroundColour();
     
-    g.setColour(backgroundColour);
-    g.fillRect(area);
+    if (isActive)
+    {
+        // Active tab
+        g.setColour(backgroundColour);
+        g.fillRect(area);
+        
+        // We can add a border at the bottom for active tabs if desired
+        g.setColour(ColorScheme::getIndustrialRed());
+        if (orientation == juce::TabbedButtonBar::TabsAtTop)
+            g.fillRect(area.getX(), area.getBottom() - 2, area.getWidth(), 2);
+    }
+    else
+    {
+        // Inactive tab
+        g.setColour(backgroundColour);
+        g.fillRect(area);
+    }
     
+    // Draw text
     auto textArea = button.getTextArea();
     
-	// Use IBM Plex Mono font for tab text
-    g.setFont(getIBMPlexMonoFont(button.getHeight() * 0.7f));
+    g.setColour(button.isFrontTab() ? ColorScheme::getTitleColor() : ColorScheme::getIndustrialGrey());
+    g.setFont(getTabButtonFont(button, button.getTextArea().getHeight() * 0.6f));
+    g.drawFittedText(button.getButtonText(), textArea, juce::Justification::centred, 1);
+}
 
-    // Set text alpha based on whether tab is active
-    auto textColour = button.isFrontTab() ? 
-                     ColorScheme::getTitleColor() : 
-                     ColorScheme::getTitleColor().withAlpha(0.8f);
-                     
-    g.setColour(textColour);
-    
-    g.drawFittedText(button.getButtonText(), 
-                    textArea, 
-                    juce::Justification::centred, 
-                    1);
+int LookAndFeel::getTabButtonOverlap(int /*tabDepth*/)
+{
+    return 0;
 }

@@ -48,7 +48,7 @@ void SpectrumAnalyzer::paint (juce::Graphics& g)
 {
     using namespace juce;
     // (Our component is opaque, so we must completely fill the background with a solid colour)
-    g.fillAll (Colours::black);
+    g.fillAll (ColorScheme::getBackgroundColor());
     auto localBounds = getLocalBounds();
     
     auto bounds = getModuleBackgroundArea(localBounds);

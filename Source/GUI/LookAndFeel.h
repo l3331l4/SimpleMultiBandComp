@@ -22,9 +22,9 @@
 
 namespace ColorScheme
 {
-    inline juce::Colour getGainReductionColor() { return colorHelper(juce::Colour(0xff38c19b)); }
-    inline juce::Colour getInputSignalColor() { return colorHelper(juce::Colour(0xff00e7ff)); }
-    inline juce::Colour getOutputSignalColor() { return colorHelper(juce::Colour(0xff0cff00)); }
+    inline juce::Colour getGainReductionColor() { return colorHelper(juce::Colour(0x8ff0a4)); }
+    inline juce::Colour getInputSignalColor() { return colorHelper(juce::Colour(71, 74, 68)); }
+    inline juce::Colour getOutputSignalColor() { return colorHelper(juce::Colour(255, 0, 51)); }
     inline juce::Colour getSliderFillColor() { return colorHelper(juce::Colour(189, 189, 184)); }
     inline juce::Colour getOrangeBorderColor() { return colorHelper(juce::Colour(255u, 154u, 1u)); }
     //inline juce::Colour getSliderRangeTextColor() { return colorHelper(juce::Colour(0u, 172u, 1u)); } // bypass button, range text, etc.
@@ -33,7 +33,7 @@ namespace ColorScheme
     inline juce::Colour getThresholdColor() { return colorHelper(juce::Colour(0xffe0760c)); }
     inline juce::Colour getModuleBorderColor() { return colorHelper(juce::Colour(0xff475d9d)); }
     inline juce::Colour getTitleColor() { return colorHelper(juce::Colour(71, 74, 68)); }
-    inline juce::Colour getAnalyzerGridColor() { return colorHelper(juce::Colour(0xff262626)); }
+    inline juce::Colour getAnalyzerGridColor() { return colorHelper(juce::Colour(120, 120, 118)); }
     inline juce::Colour getTickColor() { return colorHelper(juce::Colour(0xff313131)); }
     inline juce::Colour getMeterLineColor() { return colorHelper(juce::Colour(0xff3c3c3c)); }
     inline juce::Colour getScaleTextColor() { return juce::Colours::lightgrey; }
@@ -91,6 +91,8 @@ struct LookAndFeel : juce::LookAndFeel_V4
         font.setStyleFlags(styleFlags);
         return font;
     }
+
+    int getTabButtonOverlap(int tabDepth) override;
 
 private:
     juce::Typeface::Ptr ibmPlexMono;

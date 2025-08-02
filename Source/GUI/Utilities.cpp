@@ -52,7 +52,7 @@ void drawModuleBackground(juce::Graphics &g,
     auto localBounds = bounds;
     
     bounds.reduce(3, 3);
-    g.setColour(Colours::black);
+    g.setColour(ColorScheme::getBackgroundColor());
     g.fillRoundedRectangle(bounds.toFloat(), 3);
     
     g.drawRect(localBounds);
