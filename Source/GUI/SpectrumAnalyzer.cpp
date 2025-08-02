@@ -136,9 +136,14 @@ void SpectrumAnalyzer::drawBackgroundGrid(juce::Graphics &g,
 void SpectrumAnalyzer::drawTextLabels(juce::Graphics &g, juce::Rectangle<int> bounds)
 {
     using namespace juce;
-    g.setColour(ColorScheme::getScaleTextColor());
+    g.setColour(ColorScheme::getIndustrialGrey());
     const int fontHeight = 10;
-    g.setFont(fontHeight);
+
+    auto& lf = getLookAndFeel();
+    if (auto* customLookAndFeel = dynamic_cast<::LookAndFeel*>(&lf))
+        g.setFont(customLookAndFeel->getIBMPlexMonoFont(fontHeight));
+    else
+        g.setFont(fontHeight);
     
     auto renderArea = SpectrumAnalyzerUtils::getAnalysisArea(bounds);
     auto left = renderArea.getX() + 1;
@@ -198,7 +203,7 @@ void SpectrumAnalyzer::drawTextLabels(juce::Graphics &g, juce::Rectangle<int> bo
         r.setX(bounds.getRight() - textWidth);
         r.setCentre(r.getCentreX(), static_cast<int>(y));
         
-        g.setColour(gDb == 0.f ? ColorScheme::getSliderRangeTextColor() : ColorScheme::getScaleTextColor() );
+        g.setColour(gDb == 0.f ? ColorScheme::getIndustrialRed() : ColorScheme::getIndustrialGrey() );
         
         g.drawFittedText(str, r, juce::Justification::centredLeft, 1);
 
