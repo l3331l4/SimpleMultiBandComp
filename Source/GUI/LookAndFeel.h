@@ -81,7 +81,7 @@ struct LookAndFeel : juce::LookAndFeel_V4
 
     juce::Font getTabButtonFont(juce::TabBarButton& button, float height) override
     {
-        return getIBMPlexMonoFont(height);
+        return getIBMPlexMonoMediumFont(height);
     }
 
     juce::Font getIBMPlexMonoFont(float fontSize, int styleFlags = juce::Font::plain) const
@@ -92,21 +92,34 @@ struct LookAndFeel : juce::LookAndFeel_V4
         return font;
     }
 
+    juce::Font getIBMPlexMonoMediumFont(float fontSize) const
+    {
+        juce::Font font(ibmPlexMonoMedium);
+        font.setHeight(fontSize);
+        return font;
+	}
+
     int getTabButtonOverlap(int tabDepth) override;
 
 private:
     juce::Typeface::Ptr ibmPlexMono;
+    juce::Typeface::Ptr ibmPlexMonoMedium;
 
     void loadIBMPlexMonoFonts()
     {
         auto fontDir = juce::File::getCurrentWorkingDirectory().getChildFile("Fonts");
         auto regularFont = fontDir.getChildFile("IBMPlexMono-Regular.ttf");
+        auto mediumFont = fontDir.getChildFile("IBMPlexMono-Medium.ttf");
 
         juce::MemoryBlock fontData;
         if (regularFont.loadFileAsData(fontData))
         {
             ibmPlexMono = juce::Typeface::createSystemTypefaceFor(fontData.getData(), fontData.getSize());
         }
+        if (mediumFont.loadFileAsData(fontData))
+        {
+            ibmPlexMonoMedium = juce::Typeface::createSystemTypefaceFor(fontData.getData(), fontData.getSize());
+		}
         else
         {
             // As a fallback, load from binary data included in the plugin
@@ -117,6 +130,14 @@ private:
             {
                 ibmPlexMono = juce::Typeface::createSystemTypefaceFor(fontData, fontDataSize);
             }
+
+			// Fallback for medium font
+            static const char* mediumFontData = BinaryData::IBMPlexMonoMedium_ttf;
+            static const int mediumFontDataSize = BinaryData::IBMPlexMonoMedium_ttfSize;
+            if (mediumFontDataSize > 0)
+            {
+                ibmPlexMonoMedium = juce::Typeface::createSystemTypefaceFor(mediumFontData, mediumFontDataSize);
+			}
         }
     }
 };
