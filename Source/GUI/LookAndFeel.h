@@ -44,7 +44,9 @@ namespace ColorScheme
     inline juce::Colour getIndustrialRed() { return juce::Colour(181, 66, 66); }
     inline juce::Colour getIndustrialGrey() { return juce::Colour(71, 74, 68); }
 	inline juce::Colour getIndustrialGreen() { return juce::Colour(110, 125, 110); }
-
+	inline juce::Colour getBypassedSliderFillColor() { return juce::Colour(214, 213, 212); }
+    inline juce::Colour getBypassedSliderBorderColor() { return juce::Colour(180, 179, 178); }
+	inline juce::Colour getBypassedToggleFillColor() { return juce::Colour(193, 194, 189); }
 };
 
 

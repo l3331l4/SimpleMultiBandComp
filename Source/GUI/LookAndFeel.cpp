@@ -31,10 +31,10 @@ void LookAndFeel::drawRotarySlider(juce::Graphics & g,
     
 //    auto fillColour = Colour(97u, 18u, 167u);
 //    auto fillColour = JUCE_LIVE_CONSTANT(Colour(0xff1e0732));
-    g.setColour(enabled ? getSliderFillColor() : Colours::darkgrey );
+    g.setColour(enabled ? getSliderFillColor() : ColorScheme::getBypassedSliderFillColor() );
     g.fillEllipse(bounds);
     
-    g.setColour(enabled ? getSliderBorderColor() : Colours::grey);
+    g.setColour(enabled ? getSliderBorderColor() : ColorScheme::getBypassedSliderBorderColor());
     g.drawEllipse(bounds, 3.f);
     
     if( auto* rswl = dynamic_cast<RotarySliderWithLabels*>(&slider))
@@ -89,7 +89,7 @@ void LookAndFeel::drawToggleButton(juce::Graphics &g,
         auto r = bounds.withSizeKeepingCentre(size, size).toFloat();
 
         // Set color: ON = bypassed = greyish, OFF = not bypassed = dark
-        juce::Colour onColour = juce::Colour(193, 194, 189); // bypassed
+        juce::Colour onColour = ColorScheme::getBypassedToggleFillColor(); // bypassed
 
         juce::Colour offColour = ColorScheme::getTitleColor();    // not bypassed
 
